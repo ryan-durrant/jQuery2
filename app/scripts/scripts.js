@@ -1,5 +1,6 @@
 $(document).ready(function(){
 
+  var listo = [];
 
   var advanceTask = function(task){
     var modified = task.innerText.trim();
@@ -14,6 +15,7 @@ $(document).ready(function(){
       break;
     }
     task.remove();
+    localStorage.setItem("listoArr", JSON.stringify(listo));
   };
 //Move to inProgress
   $(document).on('click', '#item', function(e){
@@ -23,6 +25,7 @@ $(document).ready(function(){
     advanceTask(task);
     this.id = 'inProgress';
     $('#currentList').append(this.outerHTML);
+    localStorage.setItem("listoArr", JSON.stringify(listo));
   });
 //move to complete
   $(document).on('click', '#inProgress', function(e){
@@ -32,6 +35,7 @@ $(document).ready(function(){
     var changeIcon = task.outerHTML.replace('glyphicon-arrow-right', 'glyphicon-remove');
     advanceTask(task);
     $('#archivedList').append(changeIcon);
+    localStorage.setItem("listoArr", JSON.stringify(listo));
   });
 //delete items from the list
 $(document).on('click', '#archived', function (e){
@@ -42,8 +46,6 @@ $(document).on('click', '#archived', function (e){
 
   $('#newTaskForm').hide();
 
-  var listo = [];
-
   var Task = function(task) {
     this.task = task;
     this.id = 'new';
@@ -53,6 +55,8 @@ $(document).on('click', '#archived', function (e){
     if(task){
       task = new Task(task);
       listo.push(task);
+
+      localStorage.setItem("listoArr", JSON.stringify(listo));
 
       $('#newItemInput').val('');
         $('#newList').append(
@@ -85,18 +89,19 @@ $(document).on('click', '#archived', function (e){
     $('#newTaskForm').fadeToggle('fast', 'linear');
   });
 
-function saveToDoList() {
-    localStorage.setItem("tasks", listo);
-    //saves the whole array, each element in the array is an object that has a task and an id.
-}
-
-
-// function reloadToDo() {
-//   filledOutToDo = (localStorage["Filled.out.todo.list"] == "true");
-//   if(!filledOutToDo) {
-//     return false;
-//   }
-// }
-
+  if(localStorage.getItem('listoArr')) {
+    var dataArr = JSON.parse(localStorage.getItem('listoArr'));
+    for(var i = 0; i < listoArr.length; i++){
+      if (listo[i].id === 'new'){
+      $('#newList').append(this.outerHTML);
+    }
+      else if(listo[i].id === 'inProgress'){
+        $('#currentList').append(this.outerHTML);
+      }
+      else{
+        $('#archivedList').append(this.outerHTML);
+      }
+    }
+  }
 
 });
