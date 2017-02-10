@@ -91,15 +91,41 @@ $(document).on('click', '#archived', function (e){
 
   if(localStorage.getItem('listoArr')) {
     var dataArr = JSON.parse(localStorage.getItem('listoArr'));
-    for(var i = 0; i < listoArr.length; i++){
-      if (listo[i].id === 'new'){
-      $('#newList').append(this.outerHTML);
+    console.log(dataArr);
+    for(var i = 0; i < dataArr.length; i++){
+      console.log(dataArr[i].id);
+      if (dataArr[i].id === 'new'){
+        console.log(this);
+      $('#newList').append(
+        '<a href="#finish" class"" id="item">' +
+        '<li class = "list-group-item">' +
+        '<h3>' + dataArr[i].task + '</h3>'+
+        '<span class="arrow pull-right">' +
+        '<i class="glyphicon glyphicon-arrow-right">' +
+        '</span>' +
+        '</li>' +
+        '</a>'
+      );
     }
-      else if(listo[i].id === 'inProgress'){
-        $('#currentList').append(this.outerHTML);
+      else if(dataArr[i].id === 'inProgress'){
+        $('#currentList').append('<a href="#finish" class"" id="item">' +
+        '<li class = "list-group-item">' +
+        '<h3>' + dataArr[i].task + '</h3>'+
+        '<span class="arrow pull-right">' +
+        '<i class="glyphicon glyphicon-arrow-right">' +
+        '</span>' +
+        '</li>' +
+        '</a>');
       }
       else{
-        $('#archivedList').append(this.outerHTML);
+        $('#archivedList').append('<a href="#finish" class"" id="item">' +
+        '<li class = "list-group-item">' +
+        '<h3>' + dataArr[i].task + '</h3>'+
+        '<span class="arrow pull-right">' +
+        '<i class="glyphicon glyphicon-arrow-right">' +
+        '</span>' +
+        '</li>' +
+        '</a>');
       }
     }
   }
